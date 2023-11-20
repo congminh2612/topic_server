@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import userRouter from "./routes/users.js";
 import authRouter from "./routes/auth.js";
+import topicRouter from "./routes/topic.js";
 
 dotenv.config();
 const app = express();
@@ -22,6 +23,8 @@ const dbConnect = async () => {
 dbConnect();
 
 app.use(express.json());
+
+app.use("/api/topic", topicRouter);
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
