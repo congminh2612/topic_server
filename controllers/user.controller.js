@@ -52,6 +52,35 @@ const subscribeTopic = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+const unSubscribeTopic = async (req, res) => {
+  const { userId, topicId } = req.query;
+  try {
+    const user = await User.findById(userId);
+    const topic = await Topic.findById(topicId);
+
+    if (!user || !topic) {
+      return res.status(404).json("User or Topic not found");
+    }
+    if (!user.subscribedTopics.includes(topicId)) {
+      return res.status(400).json("User is not subscribed to this topic");
+    }
+    // Lọc ra các phần tử khác với topicId trong mảng subscribedTopics của user
+    user.subscribedTopics = user.subscribedTopics.filter(
+      (id) => id.toString() !== topicId.toString()
+    );
+
+    // Lọc ra các phần tử khác với userId trong mảng subscribers của topic
+    topic.subscribers = topic.subscribers.filter(
+      (id) => id.toString() !== userId.toString()
+    );
+    await user.save();
+    await topic.save();
+    res.status(200).json("Successfully unsubscribed from the topic");
+  } catch (error) {
+    res.json(error);
+  }
+};
 const getTopicByUser = async (req, res) => {
   const { id } = req.params;
   try {
@@ -83,6 +112,7 @@ export {
   deleteUser,
   updateUser,
   subscribeTopic,
+  unSubscribeTopic,
   getTopicByUser,
   getUserById,
 };

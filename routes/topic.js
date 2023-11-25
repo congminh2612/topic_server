@@ -13,7 +13,7 @@ import {
 const router = express.Router();
 router.get("/getall", getTopic);
 router.get("/:id", getTopicById);
-router.get("/user/:id", verifyToken, getUserByTopic);
+router.get("/user/:id", verifyAdmin, getUserByTopic);
 router.post("/", verifyAdmin, createTopic);
 router.delete("/:id", verifyAdmin, deleteTopic);
 router.patch("/:id", verifyAdmin, updateTopic);

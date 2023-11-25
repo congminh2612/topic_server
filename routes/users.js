@@ -5,6 +5,7 @@ import {
   getTopicByUser,
   getUserById,
   subscribeTopic,
+  unSubscribeTopic,
   updateUser,
 } from "../controllers/user.controller.js";
 import { verifyAdmin, verifyToken } from "../services/verifyService.js";
@@ -17,5 +18,6 @@ router.get("/topic/:id", verifyToken, getTopicByUser);
 router.patch("/:id", verifyToken, updateUser);
 router.delete("/:id", verifyAdmin, deleteUser);
 router.post("/subscribe", verifyToken, subscribeTopic);
+router.post("/unsubscribe", verifyToken, unSubscribeTopic);
 
 export default router;
